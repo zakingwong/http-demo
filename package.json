@@ -1,0 +1,52 @@
+{
+  "name": "same-origin-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "jsonp-client": "node ./jsonp/client.js",
+    "jsonp-server": "node ./jsonp/server.js",
+    "jsonp": "concurrently \"yarn jsonp-client\" \"yarn jsonp-server\"",
+    "cors-client": "node ./cors/client.js",
+    "cors-server": "node ./cors/server.js",
+    "cors": "concurrently \"yarn cors-client\" \"yarn cors-server\"",
+    "websocket-client": "node ./websocket/client.js",
+    "websocket-server": "node ./websocket/server.js",
+    "websocket": "concurrently \"yarn websocket-client\" \"yarn websocket-server\"",
+    "node-proxy-client": "node ./node-proxy/client.js",
+    "node-proxy-proxy": "node ./node-proxy/proxy.js",
+    "node-proxy-server": "node ./node-proxy/server.js",
+    "node-proxy": "concurrently \"yarn node-proxy-client\" \"yarn node-proxy-server\" \"yarn node-proxy-proxy\"",
+    "nginx-proxy-client": "node ./nginx-proxy/client.js",
+    "nginx-proxy-server": "node ./nginx-proxy/server.js",
+    "nginx-proxy": "concurrently \"yarn nginx-proxy-client\" \"yarn nginx-proxy-server\"",
+    "postmessage-a-tag-1": "node ./postmessage/a-tag/client1.js",
+    "postmessage-a-tag-2": "node ./postmessage/a-tag/client2.js",
+    "postmessage-a-tag": "concurrently \"yarn postmessage-a-tag-1\" \"yarn postmessage-a-tag-2\"",
+    "postmessage-open-fun-1": "node ./postmessage/open-fun/client1.js",
+    "postmessage-open-fun-2": "node ./postmessage/open-fun/client2.js",
+    "postmessage-open-fun": "concurrently \"yarn postmessage-open-fun-1\" \"yarn postmessage-open-fun-2\"",
+    "postmessage-iframe-1": "node ./postmessage/iframe/client1.js",
+    "postmessage-iframe-2": "node ./postmessage/iframe/client2.js",
+    "postmessage-iframe": "concurrently \"yarn postmessage-iframe-1\" \"yarn postmessage-iframe-2\"",
+    "window-name-1": "node ./window-name/client1.js",
+    "window-name-2": "node ./window-name/client2.js",
+    "window-name": "concurrently \"yarn window-name-1\" \"yarn window-name-2\"",
+    "location-hash-1": "node ./location-hash/client1.js",
+    "location-hash-2": "node ./location-hash/client2.js",
+    "location-hash": "concurrently \"yarn location-hash-1\" \"yarn location-hash-2\"",
+    "cross-site-1": "node ./cross-site/client1.js",
+    "cross-site-2": "node ./cross-site/client2.js",
+    "cross-site": "concurrently \"yarn cross-site-1\" \"yarn cross-site-2\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1",
+    "ws": "^8.9.0"
+  },
+  "devDependencies": {
+    "concurrently": "^7.4.0"
+  }
+}
