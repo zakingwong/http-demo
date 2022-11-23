@@ -7,7 +7,8 @@ const server = http.createServer((req, res) => {
   console.log("received");
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "*");
-  res.statusCode = 500;
+  res.statusCode = 599;
+  res.statusMessage = "Zaking Not Know";
   res.end("Hello Zaking World!This is Node");
 });
 
