@@ -22,13 +22,49 @@ const server = http.createServer((req, res) => {
     );
     res.end(sourceCode);
   }
-  // 返回静态资源即将请求的内容
+  // 返回静态json
   if (parsedUrl.pathname == "/api") {
     let sourceCode = fs.readFileSync(
       path.resolve(__dirname, "../media/web.json"),
       "utf8"
     );
     res.end(sourceCode);
+  }
+  if (parsedUrl.pathname == "/img") {
+    let sourceCode = fs.readFileSync(
+      path.resolve(__dirname, "../media/puppy.jpeg")
+    );
+    res.setHeader("Content-Type", "image/jpeg");
+    res.end(sourceCode);
+  }
+  if (parsedUrl.pathname == "/stream-img") {
+    let sourceCode = fs.readFileSync(
+      path.resolve(__dirname, "../media/puppy.jpeg")
+    );
+    const streamData = Buffer.from(sourceCode);
+    res.setHeader("Content-Type", "application/octet-stream");
+    res.end(streamData);
+  }
+  if (parsedUrl.pathname == "/excel") {
+    let sourceCode = fs.readFileSync(
+      path.resolve(__dirname, "../media/test.xlsx")
+    );
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+    res.end(sourceCode);
+  }
+  if (parsedUrl.pathname == "/stream-excel") {
+    let sourceCode = fs.readFileSync(
+      path.resolve(__dirname, "../media/test.xlsx")
+    );
+    const streamData = Buffer.from(sourceCode);
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+    res.end(streamData);
   }
 });
 
