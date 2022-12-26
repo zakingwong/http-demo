@@ -37,7 +37,7 @@ const server = http.createServer((req, res) => {
     res.setHeader("Content-Type", "video/mp4");
     res.setHeader("Transfer-Encoding", "chunked");
 
-    const chunkSize = 1024;
+    const chunkSize = 1024 * 1024;
     const chunks = [];
     for (let i = 0; i < bufSource.length; i += chunkSize) {
       chunks.push(Uint8Array.prototype.slice.call(bufSource, i, i + chunkSize));
