@@ -13,6 +13,33 @@
     <video controls width="250">
       <source src="http://www.zaking.com:9000/video-chunked" type="video/mp4" />
     </video>
+    <button id="simpleRangeBtn">发起这个视频的简单的范围请求</button>
   </body>
-  <script></script>
+  <script>
+    const simpleRangeBtn = document.getElementById("simpleRangeBtn");
+    simpleRangeBtn.addEventListener("click", simpleRangeRequestFn);
+    function simpleRangeRequestFn() {
+      const xhr = new XMLHttpRequest();
+      const url = "http://www.zaking.com:9000/simple-range";
+
+      xhr.open("GET", url);
+      xhr.responseType = "blob";
+      xhr.setRequestHeader("Range", "bytes=0-1000000");
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          console.log(xhr);
+          const result = xhr.response;
+          // 我们需要把这段二进制数据转换成视频
+          const blobData = new Blob([result]);
+          const blobSrc = URL.createObjectURL(blobData);
+          const video = document.createElement("video");
+          video.controls = true;
+          video.width = "250";
+          video.src = blobSrc;
+          document.body.appendChild(video);
+        }
+      };
+      xhr.send();
+    }
+  </script>
 </html>
