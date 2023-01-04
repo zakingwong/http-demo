@@ -77,7 +77,7 @@ const server = http.createServer((req, res) => {
     const end = rangeVal[1] ? parseInt(rangeVal[1], 10) : start + bufSourceLen;
     console.log(start, end, bufSourceLen);
     // 判断是否超出请求资源的最大长度,就返回416
-    if (start > bufSourceLen || end > bufSourceLen) {
+    if (start > bufSourceLen || end > bufSourceLen + 1) {
       res.writeHead(416, { "Content-Range": `bytes */${bufSourceLen}` });
       res.end();
     } else {

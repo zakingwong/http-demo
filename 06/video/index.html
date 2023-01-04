@@ -14,10 +14,44 @@
       <source src="http://www.zaking.com:9000/video-chunked" type="video/mp4" />
     </video>
     <button id="simpleRangeBtn">发起这个视频的简单的范围请求</button>
+    <button id="simpleRangeElseBtn">请求剩下的数据</button>
   </body>
   <script>
     const simpleRangeBtn = document.getElementById("simpleRangeBtn");
+    const simpleRangeElseBtn = document.getElementById("simpleRangeElseBtn");
+
     simpleRangeBtn.addEventListener("click", simpleRangeRequestFn);
+    simpleRangeElseBtn.addEventListener("click", simpleRangeElseRequestFn);
+    const video = document.createElement("video");
+    let totalRange = 0;
+    let result = [];
+
+    function simpleRangeElseRequestFn() {
+      const xhr = new XMLHttpRequest();
+      const url = "http://www.zaking.com:9000/simple-range";
+
+      xhr.open("GET", url);
+      xhr.responseType = "blob";
+      xhr.setRequestHeader("Range", `bytes=1000000-${Number(totalRange) + 1}`);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          const contentRange = xhr.getResponseHeader("Content-Range");
+          totalRange = contentRange.split(" ")[1].split("/")[1];
+          console.log(totalRange);
+          result.push(xhr.response);
+          console.log(result, "result");
+          // 我们需要把这段二进制数据转换成视频
+          const blobData = new Blob([...result], { type: "video/mp4" });
+          console.log(blobData);
+          const blobSrc = URL.createObjectURL(blobData);
+          video.controls = true;
+          video.width = "250";
+          video.src = blobSrc;
+          document.body.appendChild(video);
+        }
+      };
+      xhr.send();
+    }
     function simpleRangeRequestFn() {
       const xhr = new XMLHttpRequest();
       const url = "http://www.zaking.com:9000/simple-range";
@@ -27,12 +61,15 @@
       xhr.setRequestHeader("Range", "bytes=0-1000000");
       xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
+          const contentRange = xhr.getResponseHeader("Content-Range");
+          totalRange = contentRange.split(" ")[1].split("/")[1];
+          console.log(totalRange);
           console.log(xhr);
-          const result = xhr.response;
+          result.push(xhr.response);
+
           // 我们需要把这段二进制数据转换成视频
-          const blobData = new Blob([result]);
+          const blobData = new Blob(result);
           const blobSrc = URL.createObjectURL(blobData);
-          const video = document.createElement("video");
           video.controls = true;
           video.width = "250";
           video.src = blobSrc;
