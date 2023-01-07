@@ -91,6 +91,48 @@ const server = http.createServer((req, res) => {
       res.end();
     }
   }
+  // 因为我懒所以没有去获取请求头拼接字符串，也没做一些判断，就这样吧。
+  if (parsedUrl.pathname === "/multipart-range") {
+    const str = "1234567890";
+    const boundary = "split_bound";
+    const len = str.length;
+
+    const data = [
+      {
+        headers: {
+          "Content-Range": `bytes 0-3/${len}`,
+          "Content-Type": "text/plain",
+        },
+        body: str.slice(0, 3),
+      },
+      {
+        headers: {
+          "Content-Range": `bytes 4-6/${len}`,
+          "Content-Type": "text/plain",
+        },
+        body: str.slice(4, 6),
+      },
+    ];
+    let body = data
+      .map((item) => {
+        let part = `\n--${boundary}\n`;
+        for (const [key, value] of Object.entries(item.headers)) {
+          part += `${key}: ${value}\n`;
+        }
+        part += "\n";
+        part += item.body;
+        return part;
+      })
+      .join("");
+    body += `\n--${boundary}--\n`;
+    res.writeHead(206, {
+      "Accept-Ranges": "bytes",
+      "Content-type": `multipart/byteranges; boundary=${boundary}`,
+      "Content-Length": Buffer.byteLength(body),
+    });
+    res.write(body);
+    res.end();
+  }
 });
 
 server.listen(port, hostname, () => {

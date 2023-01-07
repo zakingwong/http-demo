@@ -15,7 +15,24 @@
     </video>
     <button id="simpleRangeBtn">发起这个视频的简单的范围请求</button>
     <button id="simpleRangeElseBtn">请求剩下的数据</button>
+    <button id="multipleRangeBtn">点发我发起多段数据请求</button>
   </body>
+  <script>
+    const multipleRangeBtn = document.getElementById("multipleRangeBtn");
+    multipleRangeBtn.addEventListener("click", multipleRangeBtnRequestFn);
+    function multipleRangeBtnRequestFn() {
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", "http://www.zaking.com:9000/multipart-range");
+      xhr.setRequestHeader("Range", `bytes=0-3, 4-6`);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          // 因为我懒所以只console了一下
+          console.log(xhr);
+        }
+      };
+      xhr.send();
+    }
+  </script>
   <script>
     const simpleRangeBtn = document.getElementById("simpleRangeBtn");
     const simpleRangeElseBtn = document.getElementById("simpleRangeElseBtn");
