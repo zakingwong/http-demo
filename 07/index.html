@@ -8,7 +8,24 @@
   </head>
   <body>
     <button id="btn">点我试试</button>
+    <button id="headBtn">点我试试阻塞了没？</button>
   </body>
+  <script>
+    const headBtnDom = document.getElementById("headBtn");
+    headBtnDom.addEventListener("click", requestHeadFn);
+    function requestHeadFn() {
+      const xhr = new XMLHttpRequest();
+      const url = "http://www.zaking.com:9000/head";
+
+      xhr.open("GET", url);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+          console.log(xhr);
+        }
+      };
+      xhr.send();
+    }
+  </script>
   <script>
     const btnDom = document.getElementById("btn");
     btnDom.addEventListener("click", requestFn);
@@ -20,8 +37,6 @@
       xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
           console.log(xhr);
-          console.log(xhr.responseText);
-          const result = xhr.responseText;
         }
       };
       xhr.send();

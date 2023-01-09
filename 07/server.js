@@ -18,6 +18,8 @@ const server = http.createServer((req, res) => {
   if (parsedUrl.pathname == "/connection") {
     res.end("connection");
   }
+  if (parsedUrl.pathname == "/head") {
+  }
 });
 
 server.listen(port, hostname, () => {
