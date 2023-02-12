@@ -14,6 +14,8 @@ const server = http.createServer((req, res) => {
       "utf8"
     );
     res.setHeader("Cache-Control", "must-revalidate");
+    res.setHeader("ETag", "123");
+
     res.end(sourceCode);
   }
 });
